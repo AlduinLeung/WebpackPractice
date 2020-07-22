@@ -1,8 +1,23 @@
-const path=require('path')
+const path=require('path');
+const HtmlWebpackPlugin=require('html-webpack-plugin');
+const {CleanWebpackPlugin}=require('clean-webpack-plugin');
+const webpack=require('webpack')
 module.exports={
+    // development devtool:'cheap-module-eval-source-map',
+    // production devtool:'cheap-module-source-map'
     mode:'development',
+    devtool:"cheap-module-eval-source-map",   
+
+
     entry:{
         main:'./src/index.js',
+        // sub:'./src/index.js'
+    },
+    devServer:{
+        contentBase:'./dist' ,
+        open:true, //自动打开浏览器并且访问浏览器地址    
+        hot:true,               //开启HMR
+        hotOnly:true,         
     },
     module:{
         rules:[{
@@ -33,6 +48,13 @@ module.exports={
                 'postcss-loader',
             ]   
             },{
+            test:/\.css$/,
+            use:[
+                'style-loader',
+                'css-loader',                
+                'postcss-loader',
+            ]   
+            },{
             test:/\.(eot|ttf|svg)$/,          //使用file-loader来打包字体文件，打包第三方字体
             use:{
                 loader:'file-loader',      
@@ -40,8 +62,17 @@ module.exports={
         }
         ]
     },
+    plugins:[new HtmlWebpackPlugin({
+        template:"src/index.html"    //使用htmlwebpackplugin的template来指定模板，在打包之前运行
+    }),new CleanWebpackPlugin(), //在打包打包之前运行，先清除文件
+    new webpack.HotModuleReplacementPlugin(),
+],    
+
     output:{
-        filename:'bundle.js',
+        // filename:'bundle.js',
+        // publicPath:'http://cdn.com.cn',    //使用publicpath来进行公共路径的配置
+        publicPath:'/',
+        filename:'[name].js',
         path:path.resolve(__dirname,'dist')
     }
 }
