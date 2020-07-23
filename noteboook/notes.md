@@ -17,3 +17,10 @@ production devtool:'cheap-module-source-map'
 添加webpack-dev-server可以自动刷新和启动服务器，一旦代码发生改变可以自动进行打包
 
 ##HMR hot moudule replacement
+
+
+##babel
+babel loader是webpack和代码之间的通信
+npm install @babel/preset-env --save-dev
+##babel-polyfill
+import "@babel/polyfill"
