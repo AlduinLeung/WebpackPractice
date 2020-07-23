@@ -41,11 +41,28 @@
 //         number();
 //     })   
 // }
-import "@babel/polyfill"
-const arr=[
-    new Promise(()=>{}),
-    new Promise(()=>{}),
-];
-arr.map((item)=>{
-    console.log(item)
+// import "@babel/polyfill"
+// const arr=[
+//     new Promise(()=>{}),
+//     new Promise(()=>{}),
+// ];
+// arr.map((item)=>{
+//     console.log(item)
+// })
+// import "@babel/polyfill";
+// import {add} from './math.js'
+// add(1,2);
+// import _ from 'lodash';
+// console.log(_.join(['a','b','c']))
+
+function getComponent(){
+    return import('lodash').then(({default:_})=>{
+        var element=document.createElement('div');
+        element.innerHTML=_.join(['Eric','leung'],'-');
+        return element;
+    })
+}
+
+getComponent().then((elemet)=>{
+    document.body.appendChild(element);
 })

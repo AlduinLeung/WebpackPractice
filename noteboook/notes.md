@@ -24,3 +24,28 @@ babel loader是webpack和代码之间的通信
 npm install @babel/preset-env --save-dev
 ##babel-polyfill
 import "@babel/polyfill"
+
+
+
+##Tree-shaking
+只支持es module的引用，require不支持
+在package.json里对sideEffects进行配置
+
+##Development和Production模式的区分和打包
+webpack common来提取webpack配置中共有的部分
+webpacl-merge 把共有配置和线上配置进行合并
+
+##code spliting
+打包带来的问题：打包后的文件会很大，加载时间很长；
+当业务逻辑改变后，用户重新访问页面，会重新加载一个大型文件。
+import _ from 'lodash';
+window._=_;
+然后在index.js里只写业务逻辑
+Code Spliting在没有webpack出现以前也有
+webpack的插件可以非常容易帮我们实现code spliting
+同步代码做在optimization里进行配置        
+splitChunks:{
+            chunks:'all'
+        }
+splitChunks做异步代码分割（import)的时候，无需做任何配置，会自动做代码分割
+会把代码分割到0.js里
