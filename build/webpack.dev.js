@@ -89,7 +89,7 @@ module.exports={
     optimization:{
         usedExports:true,     //tree-shaking;
         splitChunks:{
-            chunks:'all'
+            chunks:'all',
         }
     },
     output:{

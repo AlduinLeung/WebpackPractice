@@ -49,3 +49,11 @@ splitChunks:{
         }
 splitChunks做异步代码分割（import)的时候，无需做任何配置，会自动做代码分割
 会把代码分割到0.js里
+
+##SplitChunksPlugin
+/*webpackChunkName:"loadsh"*/使用魔法注释
+chunks: async all 两个参数
+cacheGroups:vendors{} //打包到vendors这个组中
+minsize 大于minsize的时候才做代码的分割
+minChunks: 1和2
+automaticNameDelimiter:"~"
