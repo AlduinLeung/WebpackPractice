@@ -1,7 +1,8 @@
 const path=require('path');
 const HtmlWebpackPlugin=require('html-webpack-plugin');
 const {CleanWebpackPlugin}=require('clean-webpack-plugin');
-const webpack=require('webpack')
+const webpack=require('webpack');
+const MiniCssExtractPlugin=require("mini-css-extract-plugin");
 module.exports={
     // development devtool:'cheap-module-eval-source-map',
     // production devtool:'cheap-module-source-map'
@@ -54,7 +55,8 @@ module.exports={
             test:/\.scss$/,
             //使用css-loade和style-loader进行打包
             use:[
-                'style-loader',         //使用css-loade和style-loader进行css打包
+                // 'style-loader',         //使用css-loade和style-loader进行css打包
+                MiniCssExtractPlugin.loader,
                 // 'css-loader',
                 {
                     loader:'css-loader',
@@ -69,7 +71,8 @@ module.exports={
             },{
             test:/\.css$/,
             use:[
-                'style-loader',
+                // 'style-loader',
+                MiniCssExtractPlugin.loader,
                 'css-loader',                
                 'postcss-loader',
             ]   
@@ -78,18 +81,22 @@ module.exports={
             use:{
                 loader:'file-loader',      
             }
-        }
+        }                    
         ]
     },
     plugins:[new HtmlWebpackPlugin({
         template:"src/index.html"    //使用htmlwebpackplugin的template来指定模板，在打包之前运行
     }),new CleanWebpackPlugin(), //在打包打包之前运行，先清除文件
     new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+        filename:"[name].css",
+        chunkFilename:'[name].chunk.js',
+    }),
 ],    
     optimization:{
         usedExports:true,     //tree-shaking;
         splitChunks:{
-            chunks:'all',
+            chunks:'async', //default：async
         }
     },
     output:{
@@ -97,6 +104,7 @@ module.exports={
         // publicPath:'http://cdn.com.cn',    //使用publicpath来进行公共路径的配置
         publicPath:'./',
         filename:'[name].js',
+        chunkFilename:'[name].chunk.js',
         path:path.resolve(__dirname,'../dist')
     }
 }

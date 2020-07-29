@@ -57,3 +57,16 @@ cacheGroups:vendors{} //打包到vendors这个组中
 minsize 大于minsize的时候才做代码的分割
 minChunks: 1和2
 automaticNameDelimiter:"~"
+通过借助import异步加载代码，可以使页面加载更快
+##打包分析，Preloading，Prefecting
+You can generate the required JSON file for this tool by running webpack --profile --json > stats.json
+需要关注的是coverage，在webpack打包过程中需要考虑的是多些异步代码，这样可以时加载的js体积变小
+同步的代码只能提升缓存，对性能提升意义不大
+##css代码分割
+MiniCSSExtractPlugin
+webpack打包时，默认会把css打包到js里
+
+##webpack和cacheing
+
+
+

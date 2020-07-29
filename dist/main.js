@@ -1,33 +1,4 @@
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	// install a JSONP callback for chunk loading
-/******/ 	function webpackJsonpCallback(data) {
-/******/ 		var chunkIds = data[0];
-/******/ 		var moreModules = data[1];
-/******/
-/******/
-/******/ 		// add "moreModules" to the modules object,
-/******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
-/******/ 		for(;i < chunkIds.length; i++) {
-/******/ 			chunkId = chunkIds[i];
-/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 				resolves.push(installedChunks[chunkId][0]);
-/******/ 			}
-/******/ 			installedChunks[chunkId] = 0;
-/******/ 		}
-/******/ 		for(moduleId in moreModules) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-/******/ 				modules[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
-/******/
-/******/ 		while(resolves.length) {
-/******/ 			resolves.shift()();
-/******/ 		}
-/******/
-/******/ 	};
-/******/
 /******/ 	function hotDisposeChunk(chunkId) {
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
@@ -92,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "f74c7104d40ff9cf614a";
+/******/ 	var hotCurrentHash = "0a07d98d58c98c7d564f";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -311,7 +282,7 @@
 /******/ 				};
 /******/ 			});
 /******/ 			hotUpdate = {};
-/******/ 			for(var chunkId in installedChunks)
+/******/ 			var chunkId = "main";
 /******/ 			// eslint-disable-next-line no-lone-blocks
 /******/ 			{
 /******/ 				hotEnsureUpdateChunk(chunkId);
@@ -798,20 +769,6 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
-/******/ 	// object to store loaded and loading chunks
-/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 	// Promise = chunk loading, 0 = chunk loaded
-/******/ 	var installedChunks = {
-/******/ 		"main": 0
-/******/ 	};
-/******/
-/******/
-/******/
-/******/ 	// script path function
-/******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"vendors~loadsh":"vendors~loadsh"}[chunkId]||chunkId) + ".js"
-/******/ 	}
-/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -839,67 +796,6 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
-/******/ 	// This file contains only the entry chunk.
-/******/ 	// The chunk loading function for additional chunks
-/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
-/******/ 		var promises = [];
-/******/
-/******/
-/******/ 		// JSONP chunk loading for javascript
-/******/
-/******/ 		var installedChunkData = installedChunks[chunkId];
-/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
-/******/
-/******/ 			// a Promise means "currently loading".
-/******/ 			if(installedChunkData) {
-/******/ 				promises.push(installedChunkData[2]);
-/******/ 			} else {
-/******/ 				// setup Promise in chunk cache
-/******/ 				var promise = new Promise(function(resolve, reject) {
-/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
-/******/ 				});
-/******/ 				promises.push(installedChunkData[2] = promise);
-/******/
-/******/ 				// start chunk loading
-/******/ 				var script = document.createElement('script');
-/******/ 				var onScriptComplete;
-/******/
-/******/ 				script.charset = 'utf-8';
-/******/ 				script.timeout = 120;
-/******/ 				if (__webpack_require__.nc) {
-/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
-/******/ 				}
-/******/ 				script.src = jsonpScriptSrc(chunkId);
-/******/
-/******/ 				// create error before stack unwound to get useful stacktrace later
-/******/ 				var error = new Error();
-/******/ 				onScriptComplete = function (event) {
-/******/ 					// avoid mem leaks in IE.
-/******/ 					script.onerror = script.onload = null;
-/******/ 					clearTimeout(timeout);
-/******/ 					var chunk = installedChunks[chunkId];
-/******/ 					if(chunk !== 0) {
-/******/ 						if(chunk) {
-/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
-/******/ 							var realSrc = event && event.target && event.target.src;
-/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
-/******/ 							error.name = 'ChunkLoadError';
-/******/ 							error.type = errorType;
-/******/ 							error.request = realSrc;
-/******/ 							chunk[1](error);
-/******/ 						}
-/******/ 						installedChunks[chunkId] = undefined;
-/******/ 					}
-/******/ 				};
-/******/ 				var timeout = setTimeout(function(){
-/******/ 					onScriptComplete({ type: 'timeout', target: script });
-/******/ 				}, 120000);
-/******/ 				script.onerror = script.onload = onScriptComplete;
-/******/ 				document.head.appendChild(script);
-/******/ 			}
-/******/ 		}
-/******/ 		return Promise.all(promises);
-/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -953,18 +849,8 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "./";
 /******/
-/******/ 	// on error function for async loading
-/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
-/******/
 /******/ 	// __webpack_hash__
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
-/******/
-/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
-/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-/******/ 	jsonpArray.push = webpackJsonpCallback;
-/******/ 	jsonpArray = jsonpArray.slice();
-/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -977,11 +863,23 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
+/*! no exports provided */
 /*! all exports used */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_0__);\n// // import avatar from './avatar.jpg';\n// // import style from './index.scss';\n// // import createAvatar from './createAvatar.js'\n// // createAvatar();\n// // var root=document.getElementById('root');\n// // var img=new Image();\n// // img.src=avatar;\n// // img.classList.add(style.avatar)\n// // root.append(img); \n// // //commonJS\n// // //var avatar=require('./avatar.jpg')\n// var root=document.getElementById('root');\n// root.className='test'\n// console.log('hello world dellleeeee!!!!!!!')\n// import './style.css'\n// var btn=document.createElement('button');\n// btn.innerHTML='add';\n// document.body.appendChild(btn);\n// btn.onclick=function(){\n//     var div=document.createElement('div');\n//     div.innerHTML='item';\n//     document.body.appendChild(div);\n// }\n// import counter from './counter';\n// import number from './number';\n// counter();\n// number();\n// if(module.hot){\n//     module.hot.accept('./number',()=>{\n//         document.body.removeChild(document.getElementById('number'));\n//         number();\n//     })   \n// }\n// import \"@babel/polyfill\"\n// const arr=[\n//     new Promise(()=>{}),\n//     new Promise(()=>{}),\n// ];\n// arr.map((item)=>{\n//     console.log(item)\n// })\n// import \"@babel/polyfill\";\n// import {add} from './math.js'\n// add(1,2);\n// import _ from 'lodash';\n// console.log(_.join(['a','b','c']))\n// function getComponent(){\n//     return import(/*webpackChunkName:\"loadsh\"*/'lodash').then(({default:_})=>{\n//         var element=document.createElement('div');\n//         element.innerHTML=_.join(['Eric','leung'],'-');\n//         return element;\n//     })\n// }\n// getComponent().then((elemet)=>{\n//     document.body.appendChild(element);\n// })\n// import test from './test'\n// console.log(test);\n// async function getComponent(){\n//     const {default:_}=await import(/*webpackChunkName:\"loadash\"*/ 'lodash')\n//     const element=document.createElement('div');\n//     element.innerHTML=_.join(['dell','lee'],'-');\n//     return element;\n// }\n// document.addEventListener('click',()=>{\n//     getComponent().then(element=>{\n//         document.body.appendChild(element);\n//     })\n// });\n//     const element=document.createElement('div');\n//     element.innerHTML='hello world';\n//     document.body.appendChild(element);\n// })\n\nconsole.log(\"hello\");//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyAvLyBpbXBvcnQgYXZhdGFyIGZyb20gJy4vYXZhdGFyLmpwZyc7XG4vLyAvLyBpbXBvcnQgc3R5bGUgZnJvbSAnLi9pbmRleC5zY3NzJztcbi8vIC8vIGltcG9ydCBjcmVhdGVBdmF0YXIgZnJvbSAnLi9jcmVhdGVBdmF0YXIuanMnXG5cbi8vIC8vIGNyZWF0ZUF2YXRhcigpO1xuLy8gLy8gdmFyIHJvb3Q9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jvb3QnKTtcbi8vIC8vIHZhciBpbWc9bmV3IEltYWdlKCk7XG4vLyAvLyBpbWcuc3JjPWF2YXRhcjtcbiBcbi8vIC8vIGltZy5jbGFzc0xpc3QuYWRkKHN0eWxlLmF2YXRhcilcbi8vIC8vIHJvb3QuYXBwZW5kKGltZyk7IFxuLy8gLy8gLy9jb21tb25KU1xuLy8gLy8gLy92YXIgYXZhdGFyPXJlcXVpcmUoJy4vYXZhdGFyLmpwZycpXG5cbi8vIHZhciByb290PWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyb290Jyk7XG4vLyByb290LmNsYXNzTmFtZT0ndGVzdCdcbi8vIGNvbnNvbGUubG9nKCdoZWxsbyB3b3JsZCBkZWxsbGVlZWVlISEhISEhIScpXG5cblxuXG4vLyBpbXBvcnQgJy4vc3R5bGUuY3NzJ1xuLy8gdmFyIGJ0bj1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdidXR0b24nKTtcbi8vIGJ0bi5pbm5lckhUTUw9J2FkZCc7XG4vLyBkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGJ0bik7XG4vLyBidG4ub25jbGljaz1mdW5jdGlvbigpe1xuLy8gICAgIHZhciBkaXY9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XG4vLyAgICAgZGl2LmlubmVySFRNTD0naXRlbSc7XG4vLyAgICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChkaXYpO1xuLy8gfVxuXG5cbi8vIGltcG9ydCBjb3VudGVyIGZyb20gJy4vY291bnRlcic7XG4vLyBpbXBvcnQgbnVtYmVyIGZyb20gJy4vbnVtYmVyJztcblxuXG4vLyBjb3VudGVyKCk7XG4vLyBudW1iZXIoKTtcbi8vIGlmKG1vZHVsZS5ob3Qpe1xuLy8gICAgIG1vZHVsZS5ob3QuYWNjZXB0KCcuL251bWJlcicsKCk9Pntcbi8vICAgICAgICAgZG9jdW1lbnQuYm9keS5yZW1vdmVDaGlsZChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbnVtYmVyJykpO1xuLy8gICAgICAgICBudW1iZXIoKTtcbi8vICAgICB9KSAgIFxuLy8gfVxuLy8gaW1wb3J0IFwiQGJhYmVsL3BvbHlmaWxsXCJcbi8vIGNvbnN0IGFycj1bXG4vLyAgICAgbmV3IFByb21pc2UoKCk9Pnt9KSxcbi8vICAgICBuZXcgUHJvbWlzZSgoKT0+e30pLFxuLy8gXTtcbi8vIGFyci5tYXAoKGl0ZW0pPT57XG4vLyAgICAgY29uc29sZS5sb2coaXRlbSlcbi8vIH0pXG4vLyBpbXBvcnQgXCJAYmFiZWwvcG9seWZpbGxcIjtcbi8vIGltcG9ydCB7YWRkfSBmcm9tICcuL21hdGguanMnXG4vLyBhZGQoMSwyKTtcbi8vIGltcG9ydCBfIGZyb20gJ2xvZGFzaCc7XG4vLyBjb25zb2xlLmxvZyhfLmpvaW4oWydhJywnYicsJ2MnXSkpXG5cbi8vIGZ1bmN0aW9uIGdldENvbXBvbmVudCgpe1xuLy8gICAgIHJldHVybiBpbXBvcnQoLyp3ZWJwYWNrQ2h1bmtOYW1lOlwibG9hZHNoXCIqLydsb2Rhc2gnKS50aGVuKCh7ZGVmYXVsdDpffSk9Pntcbi8vICAgICAgICAgdmFyIGVsZW1lbnQ9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XG4vLyAgICAgICAgIGVsZW1lbnQuaW5uZXJIVE1MPV8uam9pbihbJ0VyaWMnLCdsZXVuZyddLCctJyk7XG4vLyAgICAgICAgIHJldHVybiBlbGVtZW50O1xuLy8gICAgIH0pXG4vLyB9XG5cbi8vIGdldENvbXBvbmVudCgpLnRoZW4oKGVsZW1ldCk9Pntcbi8vICAgICBkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGVsZW1lbnQpO1xuLy8gfSlcbi8vIGltcG9ydCB0ZXN0IGZyb20gJy4vdGVzdCdcbi8vIGNvbnNvbGUubG9nKHRlc3QpO1xuXG5cbi8vIGFzeW5jIGZ1bmN0aW9uIGdldENvbXBvbmVudCgpe1xuLy8gICAgIGNvbnN0IHtkZWZhdWx0Ol99PWF3YWl0IGltcG9ydCgvKndlYnBhY2tDaHVua05hbWU6XCJsb2FkYXNoXCIqLyAnbG9kYXNoJylcbi8vICAgICBjb25zdCBlbGVtZW50PWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuLy8gICAgIGVsZW1lbnQuaW5uZXJIVE1MPV8uam9pbihbJ2RlbGwnLCdsZWUnXSwnLScpO1xuLy8gICAgIHJldHVybiBlbGVtZW50O1xuLy8gfVxuXG4vLyBkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsKCk9Pntcbi8vICAgICBnZXRDb21wb25lbnQoKS50aGVuKGVsZW1lbnQ9Pntcbi8vICAgICAgICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChlbGVtZW50KTtcbi8vICAgICB9KVxuLy8gfSk7XG5cbi8vICAgICBjb25zdCBlbGVtZW50PWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuLy8gICAgIGVsZW1lbnQuaW5uZXJIVE1MPSdoZWxsbyB3b3JsZCc7XG4vLyAgICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChlbGVtZW50KTtcbi8vIH0pXG5cblxuaW1wb3J0ICcuL3N0eWxlLmNzcydcbmNvbnNvbGUubG9nKFwiaGVsbG9cIikiXSwibWFwcGluZ3MiOiJBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ0E7QUFDQTtBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFFQTtBQUNBO0FBQ0E7QUFJQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFHQTtBQUNBO0FBR0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBR0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBR0E7QUFDQSIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/index.js\n");
+
+/***/ }),
+
+/***/ "./src/style.css":
+/*!***********************!*\
+  !*** ./src/style.css ***!
+  \***********************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// // import avatar from './avatar.jpg';\n// // import style from './index.scss';\n// // import createAvatar from './createAvatar.js'\n// // createAvatar();\n// // var root=document.getElementById('root');\n// // var img=new Image();\n// // img.src=avatar;\n// // img.classList.add(style.avatar)\n// // root.append(img); \n// // //commonJS\n// // //var avatar=require('./avatar.jpg')\n// var root=document.getElementById('root');\n// root.className='test'\n// console.log('hello world dellleeeee!!!!!!!')\n// import './style.css'\n// var btn=document.createElement('button');\n// btn.innerHTML='add';\n// document.body.appendChild(btn);\n// btn.onclick=function(){\n//     var div=document.createElement('div');\n//     div.innerHTML='item';\n//     document.body.appendChild(div);\n// }\n// import counter from './counter';\n// import number from './number';\n// counter();\n// number();\n// if(module.hot){\n//     module.hot.accept('./number',()=>{\n//         document.body.removeChild(document.getElementById('number'));\n//         number();\n//     })   \n// }\n// import \"@babel/polyfill\"\n// const arr=[\n//     new Promise(()=>{}),\n//     new Promise(()=>{}),\n// ];\n// arr.map((item)=>{\n//     console.log(item)\n// })\n// import \"@babel/polyfill\";\n// import {add} from './math.js'\n// add(1,2);\n// import _ from 'lodash';\n// console.log(_.join(['a','b','c']))\nfunction getComponent() {\n  return __webpack_require__.e(/*! import() | loadsh */ \"vendors~loadsh\").then(__webpack_require__.t.bind(null, /*! lodash */ \"./node_modules/lodash/lodash.js\", 7)).then((_ref) => {\n    let {\n      default: _\n    } = _ref;\n    var element = document.createElement('div');\n    element.innerHTML = _.join(['Eric', 'leung'], '-');\n    return element;\n  });\n}\n\ngetComponent().then(elemet => {\n  document.body.appendChild(element);\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvaW5kZXguanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvaW5kZXguanM/YjYzNSJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyAvLyBpbXBvcnQgYXZhdGFyIGZyb20gJy4vYXZhdGFyLmpwZyc7XG4vLyAvLyBpbXBvcnQgc3R5bGUgZnJvbSAnLi9pbmRleC5zY3NzJztcbi8vIC8vIGltcG9ydCBjcmVhdGVBdmF0YXIgZnJvbSAnLi9jcmVhdGVBdmF0YXIuanMnXG5cbi8vIC8vIGNyZWF0ZUF2YXRhcigpO1xuLy8gLy8gdmFyIHJvb3Q9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jvb3QnKTtcbi8vIC8vIHZhciBpbWc9bmV3IEltYWdlKCk7XG4vLyAvLyBpbWcuc3JjPWF2YXRhcjtcbiBcbi8vIC8vIGltZy5jbGFzc0xpc3QuYWRkKHN0eWxlLmF2YXRhcilcbi8vIC8vIHJvb3QuYXBwZW5kKGltZyk7IFxuLy8gLy8gLy9jb21tb25KU1xuLy8gLy8gLy92YXIgYXZhdGFyPXJlcXVpcmUoJy4vYXZhdGFyLmpwZycpXG5cbi8vIHZhciByb290PWRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyb290Jyk7XG4vLyByb290LmNsYXNzTmFtZT0ndGVzdCdcbi8vIGNvbnNvbGUubG9nKCdoZWxsbyB3b3JsZCBkZWxsbGVlZWVlISEhISEhIScpXG5cblxuXG4vLyBpbXBvcnQgJy4vc3R5bGUuY3NzJ1xuLy8gdmFyIGJ0bj1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdidXR0b24nKTtcbi8vIGJ0bi5pbm5lckhUTUw9J2FkZCc7XG4vLyBkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGJ0bik7XG4vLyBidG4ub25jbGljaz1mdW5jdGlvbigpe1xuLy8gICAgIHZhciBkaXY9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XG4vLyAgICAgZGl2LmlubmVySFRNTD0naXRlbSc7XG4vLyAgICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChkaXYpO1xuLy8gfVxuXG5cbi8vIGltcG9ydCBjb3VudGVyIGZyb20gJy4vY291bnRlcic7XG4vLyBpbXBvcnQgbnVtYmVyIGZyb20gJy4vbnVtYmVyJztcblxuXG4vLyBjb3VudGVyKCk7XG4vLyBudW1iZXIoKTtcbi8vIGlmKG1vZHVsZS5ob3Qpe1xuLy8gICAgIG1vZHVsZS5ob3QuYWNjZXB0KCcuL251bWJlcicsKCk9Pntcbi8vICAgICAgICAgZG9jdW1lbnQuYm9keS5yZW1vdmVDaGlsZChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbnVtYmVyJykpO1xuLy8gICAgICAgICBudW1iZXIoKTtcbi8vICAgICB9KSAgIFxuLy8gfVxuLy8gaW1wb3J0IFwiQGJhYmVsL3BvbHlmaWxsXCJcbi8vIGNvbnN0IGFycj1bXG4vLyAgICAgbmV3IFByb21pc2UoKCk9Pnt9KSxcbi8vICAgICBuZXcgUHJvbWlzZSgoKT0+e30pLFxuLy8gXTtcbi8vIGFyci5tYXAoKGl0ZW0pPT57XG4vLyAgICAgY29uc29sZS5sb2coaXRlbSlcbi8vIH0pXG4vLyBpbXBvcnQgXCJAYmFiZWwvcG9seWZpbGxcIjtcbi8vIGltcG9ydCB7YWRkfSBmcm9tICcuL21hdGguanMnXG4vLyBhZGQoMSwyKTtcbi8vIGltcG9ydCBfIGZyb20gJ2xvZGFzaCc7XG4vLyBjb25zb2xlLmxvZyhfLmpvaW4oWydhJywnYicsJ2MnXSkpXG5cbmZ1bmN0aW9uIGdldENvbXBvbmVudCgpe1xuICAgIHJldHVybiBpbXBvcnQoLyp3ZWJwYWNrQ2h1bmtOYW1lOlwibG9hZHNoXCIqLydsb2Rhc2gnKS50aGVuKCh7ZGVmYXVsdDpffSk9PntcbiAgICAgICAgdmFyIGVsZW1lbnQ9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XG4gICAgICAgIGVsZW1lbnQuaW5uZXJIVE1MPV8uam9pbihbJ0VyaWMnLCdsZXVuZyddLCctJyk7XG4gICAgICAgIHJldHVybiBlbGVtZW50O1xuICAgIH0pXG59XG5cbmdldENvbXBvbmVudCgpLnRoZW4oKGVsZW1ldCk9PntcbiAgICBkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGVsZW1lbnQpO1xufSlcbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUVBO0FBQ0E7QUFDQTtBQUlBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUdBO0FBQ0E7QUFHQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFFQTtBQUNBLG9LQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBIiwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/index.js\n");
+eval("// extracted by mini-css-extract-plugin//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvc3R5bGUuY3NzLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vc3JjL3N0eWxlLmNzcz9hZWQ3Il0sInNvdXJjZXNDb250ZW50IjpbIi8vIGV4dHJhY3RlZCBieSBtaW5pLWNzcy1leHRyYWN0LXBsdWdpbiJdLCJtYXBwaW5ncyI6IkFBQUEiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/style.css\n");
 
 /***/ })
 

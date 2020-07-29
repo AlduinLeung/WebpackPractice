@@ -1,0 +1,20 @@
+Hash: 0a07d98d58c98c7d564f
+Version: webpack 4.43.0
+Time: 1341ms
+Built at: 2020-07-24 5:51:32 ├F10: PM┤
+     Asset       Size  Chunks             Chunk Names
+index.html  308 bytes          [emitted]  
+  main.css   31 bytes    main  [emitted]  main
+   main.js   38.3 KiB    main  [emitted]  main
+Entrypoint main = main.css main.js
+[./src/index.js] 2.25 KiB {main} [built]
+[./src/style.css] 39 bytes {main} [built]
+    + 1 hidden module
+Child HtmlWebpackCompiler:
+     1 asset
+    Entrypoint HtmlWebpackPlugin_0 = __child-HtmlWebpackPlugin_0
+    [./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html] 503 bytes {HtmlWebpackPlugin_0} [built]
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!node_modules/postcss-loader/src/index.js!src/style.css:
+    Entrypoint mini-css-extract-plugin = *
+    [./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src/index.js!./src/style.css] ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/src!./src/style.css 264 bytes {mini-css-extract-plugin} [built]
+        + 1 hidden module

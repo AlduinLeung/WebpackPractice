@@ -66,5 +66,28 @@
 // getComponent().then((elemet)=>{
 //     document.body.appendChild(element);
 // })
-import test from './test'
-console.log(test);
+// import test from './test'
+// console.log(test);
+
+
+// async function getComponent(){
+//     const {default:_}=await import(/*webpackChunkName:"loadash"*/ 'lodash')
+//     const element=document.createElement('div');
+//     element.innerHTML=_.join(['dell','lee'],'-');
+//     return element;
+// }
+
+// document.addEventListener('click',()=>{
+//     getComponent().then(element=>{
+//         document.body.appendChild(element);
+//     })
+// });
+
+//     const element=document.createElement('div');
+//     element.innerHTML='hello world';
+//     document.body.appendChild(element);
+// })
+
+
+import './style.css'
+console.log("hello")
